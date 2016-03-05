@@ -17,14 +17,14 @@ http://pi4j.com/install.html
 Download (or git pull) the code in pi.
 
 Compile the java program.
-cpp
+```cpp
 $> pi4j SI7021.java
-
+```
 
 Run the java program as.
-cpp
+```cpp
 $> pi4j SI7021
-
+```
 
 ##Python 
 Download and install smbus library on Raspberry pi. Steps to install smbus are provided at:
@@ -33,8 +33,8 @@ https://pypi.python.org/pypi/smbus-cffi/0.5.1
 
 Download (or git pull) the code in pi. Run the program
 
-cpp
+```cpp
 $> python SI7021.py
-
+```
 
 The code output is the relative humidity and temperature reading in degree celsius and fahrenheit.

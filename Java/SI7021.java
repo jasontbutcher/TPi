@@ -18,25 +18,25 @@ public class SI7021
 		// Get I2C device, SI7021 I2C address is 0x40(64)
 		I2CDevice device = bus.getDevice(0x40);
 		
-		// Send humidity Measurement Command
+		// Send humidity measurement command
 		device.write((byte)0xF5);
 		Thread.sleep(300);
 		
-		// Read 2 bytes of Humidity data, msb first
+		// Read 2 bytes of humidity data, msb first
 		byte[] data = new byte[2];
 		device.read(data, 0, 2);
 		
-		// Convert Humidity data
+		// Convert humidity data
 		double humidity = (((((data[0] & 0xFF) * 256) + (data[1] & 0xFF)) * 125.0) / 65536.0) - 6;
 		
-		// Send Temperature Measurement Command
+		// Send temperature measurement command
 		device.write((byte)0xF3);
 		Thread.sleep(300);
 		
-		// Read 2 bytes of Temperature data, msb first
+		// Read 2 bytes of temperature data, msb first
 		device.read(data, 0, 2);
 		
-		// Convert Temperature data
+		// Convert temperature data
 		double cTemp = (((((data[0] & 0xFF) * 256) + (data[1] & 0xFF)) * 175.72) / 65536.0) - 46.85;
 		double fTemp = (cTemp * 1.8 ) + 32;
 		

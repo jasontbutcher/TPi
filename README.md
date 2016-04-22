@@ -7,7 +7,7 @@ This Device is available from ControlEverything.com [SKU: SI7021_I2CS]
 
 https://www.controleverything.com/content/Humidity?sku=SI7021_I2CS
 
-This Sample code can be used with Raspberry pi.
+This Sample code can be used with Raspberry pi and Beaglebone Black.
 
 ##Java 
 Download and install pi4j library on Raspberry pi. Steps to install pi4j are provided at:
@@ -37,4 +37,16 @@ Download (or git pull) the code in pi. Run the program
 $> python SI7021.py
 ```
 
+## C
+
+Download (or git pull) the code in Beaglebone Black.
+
+Compile the c program.
+```cpp
+$>gcc SI7021.c -o SI7021
+```
+Run the c program.
+```cpp
+$>./SI7021
+```
 The code output is the relative humidity and temperature reading in degree celsius and fahrenheit.

@@ -59,4 +59,4 @@ Run the c program.
 $>./SI7021
 ```
 
-The code output is the relative humidity and temperature reading in degree celsius and fahrenheit.
+#####The code output is the relative humidity and temperature reading in degree celsius and fahrenheit.

@@ -43,7 +43,7 @@ fTemp = cTemp * 1.8 + 32
 
 # Output data to screen
 time.ctime() # 'Mon Oct 18 13:35:29 2010'
-time.strftime('%l:%M%p %Z on %b %d, %Y')
+print time.strftime('%l:%M%p %Z on %b %d, %Y')
 print "Relative Humidity is : %.2f %%" %humidity
 print "Temperature in Celsius is : %.2f C" %cTemp
 print "Temperature in Fahrenheit is : %.2f F" %fTemp

@@ -22,8 +22,8 @@ cTemp = w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_mi
 fTemp = w.get_temperature('fahrenheit')
 
 print "Relative Humidity is : %.2f %%" %humidity
-print "Temperature in Celsius is : %.2f C" %cTemp
-print "Temperature in Fahrenheit is : %.2f F" %fTemp
+print "Temperature in Celsius is : %s" %cTemp
+print "Temperature in Fahrenheit is : %s" %fTemp
 
 # Search current weather observations in the surroundings of
 # lat=22.57W, lon=43.12S (Rio de Janeiro, BR)

@@ -7,7 +7,7 @@
 import smbus
 import time
 
-def GetHumidity
+def GetHumidity()
     # Get I2C bus
     bus = smbus.SMBus(1)
 
@@ -26,7 +26,7 @@ def GetHumidity
     humidity = ((data0 * 256 + data1) * 125 / 65536.0) - 6
     return humidity
 
-def GetTemperature
+def GetTemperature()
     # Get I2C bus
     bus = smbus.SMBus(1)
 

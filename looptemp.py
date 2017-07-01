@@ -7,7 +7,7 @@
 import smbus
 import time
 
-def GetHumidity()
+def GetHumidity():
     # Get I2C bus
     bus = smbus.SMBus(1)
 
@@ -26,7 +26,7 @@ def GetHumidity()
     humidity = ((data0 * 256 + data1) * 125 / 65536.0) - 6
     return humidity
 
-def GetTemperature()
+def GetTemperature():
     # Get I2C bus
     bus = smbus.SMBus(1)
 
@@ -45,13 +45,13 @@ def GetTemperature()
     fTemp = cTemp * 1.8 + 32
     return fTemp
 
-def OutputToScreen(humidity,fTemp)
+def OutputToScreen(humidity,fTemp):
     time.ctime() # 'Mon Oct 18 13:35:29 2010'
     print time.strftime('%l:%M%p %Z on %b %d, %Y')
     print "Relative Humidity is : %.2f %%" %humidity
     print "Temperature in Fahrenheit is : %.2f F" %fTemp
 
-def OutputToFile(humidity,fTemp)
+def OutputToFile(humidity,fTemp):
     f = open('hotfile.txt', 'a')
     f.write('+++New reading++++\n')
     f.write(time.strftime('%l:%M%p %Z on %b %d, %Y\n'))

@@ -51,10 +51,14 @@ print "Temperature in Fahrenheit is : %.2f F" %fTemp
 
 f = open('hotfile.txt', 'a')
 
-f.write('+++New reading++++')
+f.write('+++New reading++++\n')
 f.write(time.strftime('%l:%M%p %Z on %b %d, %Y'))
+f.write('\n')
 f.write("Relative Humidity is : %.2f %%" %humidity)
+f.write('\n')
 f.write("Temperature in Celsius is : %.2f C" %cTemp)
+f.write('\n')
 f.write("Temperature in Fahrenheit is : %.2f F" %fTemp)
+f.write('\n')
 
 f.close()

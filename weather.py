@@ -17,9 +17,13 @@ print(w)                      # <Weather - reference time=2013-12-18 09:20,
 # Weather details
 w.get_wind()                  # {'speed': 4.6, 'deg': 330}
 
-print "Relative Humidity is : %.2f %%" w.get_humidity()              # 87
-print "Temperature in Celsius is : %.2f C" w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
-print "Temperature in Fahrenheit is : %.2f F" w.get_temperature('fahrenheit')
+humidity = w.get_humidity()              # 87
+cTemp = w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
+fTemp = w.get_temperature('fahrenheit')
+
+print "Relative Humidity is : %.2f %%" %humidity
+print "Temperature in Celsius is : %.2f C" %cTemp
+print "Temperature in Fahrenheit is : %.2f F" %fTemp
 
 # Search current weather observations in the surroundings of
 # lat=22.57W, lon=43.12S (Rio de Janeiro, BR)

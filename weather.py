@@ -1,45 +1,26 @@
-#!/usr/bin/env python
-#
-# weather-now - Current weather conditions
-# This file is part of vane
-#
-# Copyright (c) 2013 Trevor Parker <trevor@trevorparker.com>
-# All rights reserved
-#
-# Distributed under the terms of the modified BSD license (see LICENSE)
+import pyowm
 
-import argparse
-import sys
-import vane
+owm = pyowm.OWM('4c95726d2c1c8afdc31be707046ced59')  # You MUST provide a valid API key
 
-parser = argparse.ArgumentParser(description='Current weather conditions')
-parser.add_argument(
-    '--api-key', dest='api_key', type=str, help='API key')
-parser.add_argument(
-    '--provider', dest='provider', type=str, default='owm',
-    choices=['owm', 'wund'], help='API provider to use')
-parser.add_argument(
-    '--units', dest='units', type=str, default='imperial',
-    choices=['imperial', 'metric'], help='units to display')
-parser.add_argument(
-    'loc', type=str, nargs=argparse.REMAINDER,
-    help="location, usually 'City, State' or 'City, Country'")
-args = parser.parse_args()
-api_key = args.api_key
-provider = args.provider
-loc = ' '.join(args.loc)
-units = args.units
+# Have a pro subscription? Then use:
+# owm = pyowm.OWM(API_key='your-API-key', subscription_type='pro')
 
-w = vane.fetch_weather(loc, units, False, provider, api_key)
+# Will it be sunny tomorrow at this time in Milan (Italy) ?
+#forecast = owm.daily_forecast("Milan,it")
+#tomorrow = pyowm.timeutils.tomorrow()
+#forecast.will_be_sunny_at(tomorrow)  # Always True in Italy, right? ;-)
 
-temperature = w['current']['temperature'][0]
-if w['current']['temperature'][1] == 'fahrenheit':
-    temperature_unit = 'F'
-else:
-    temperature_unit = 'C'
-conditions = w['current']['summary'][0]
+# Search for current weather in London (UK)
+observation = owm.weather_at_place('Chattnooga,us')
+w = observation.get_weather()
+print(w)                      # <Weather - reference time=2013-12-18 09:20,
+                              # status=Clouds>
 
-s = "{0} with a temperature of {1}" u"\u00B0" "{2}"
-print s.format(
-    conditions[0].upper() + conditions[1:].lower(),
-    int(round(temperature)), temperature_unit)
+# Weather details
+w.get_wind()                  # {'speed': 4.6, 'deg': 330}
+w.get_humidity()              # 87
+w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
+
+# Search current weather observations in the surroundings of
+# lat=22.57W, lon=43.12S (Rio de Janeiro, BR)
+#observation_list = owm.weather_around_coords(-22.57, -43.12)

@@ -7,8 +7,7 @@
 import smbus
 import time
 
-while True:
-    # Code executed here
+def GetHumidity
     # Get I2C bus
     bus = smbus.SMBus(1)
 
@@ -25,8 +24,11 @@ while True:
 
     # Convert the data
     humidity = ((data0 * 256 + data1) * 125 / 65536.0) - 6
+    return humidity
 
-    time.sleep(0.3)
+def GetTemperature
+    # Get I2C bus
+    bus = smbus.SMBus(1)
 
     # SI7021 address, 0x40(64)
     #		0xF3(243)	Select temperature NO HOLD master mode
@@ -41,25 +43,32 @@ while True:
     # Convert the data
     cTemp = ((data0 * 256 + data1) * 175.72 / 65536.0) - 46.85
     fTemp = cTemp * 1.8 + 32
-    # Output data to screen
+    return fTemp
+
+def OutputToScreen(humidity,fTemp)
     time.ctime() # 'Mon Oct 18 13:35:29 2010'
     print time.strftime('%l:%M%p %Z on %b %d, %Y')
     print "Relative Humidity is : %.2f %%" %humidity
-    print "Temperature in Celsius is : %.2f C" %cTemp
     print "Temperature in Fahrenheit is : %.2f F" %fTemp
 
-
+def OutputToFile(humidity,fTemp)
     f = open('hotfile.txt', 'a')
     f.write('+++New reading++++\n')
-    f.write(time.strftime('%l:%M%p %Z on %b %d, %Y'))
-    f.write('\n')
-    f.write("Relative Humidity is : %.2f %%" %humidity)
-    f.write('\n')
-    f.write("Temperature in Celsius is : %.2f C" %cTemp)
-    f.write('\n')
-    f.write("Temperature in Fahrenheit is : %.2f F" %fTemp)
-    f.write('\n')
-
+    f.write(time.strftime('%l:%M%p %Z on %b %d, %Y\n'))
+    f.write("Relative Humidity is : %.2f %%\n" %humidity)
+    f.write("Temperature in Fahrenheit is : %.2f F\n" %fTemp)
     f.close()
-
+    
+    
+while True:
+    # Code executed here
+    # Get Humidity
+    humidity = GetHumidity()
+    time.sleep(0.3)
+    fTemp = GetTemperature()
+        
+    # Output data to screen
+    OutputToScreen(humidity,fTemp)
+    #OutputToFile(humidity,fTemp)
+    
     time.sleep(300)

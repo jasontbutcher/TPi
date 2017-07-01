@@ -9,5 +9,5 @@ sudo pip install git+https://github.com/bivab/smbus-cffi.git
 git clone https://github.com/bivab/smbus-cffi.git
 sudo python ./smbus-cffi/setup.py install
 
-git pull https://github.com/ControlEverythingCommunity/SI7021/Python
-python SI7021.py
+git pull https://github.com/ControlEverythingCommunity/SI7021
+python ./Python/SI7021.py

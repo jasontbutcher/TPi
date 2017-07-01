@@ -1,69 +1,45 @@
 #!/usr/bin/env python
-# encoding: utf-8
+#
+# weather-now - Current weather conditions
+# This file is part of vane
+#
+# Copyright (c) 2013 Trevor Parker <trevor@trevorparker.com>
+# All rights reserved
+#
+# Distributed under the terms of the modified BSD license (see LICENSE)
 
+import argparse
 import sys
-from argparse import ArgumentParser
-from xml.dom import minidom
-try:
-	from urllib.request import urlopen
-	from urllib.parse import urlencode
-except ImportError:
-	from urllib import urlopen, urlencode
+import vane
 
+parser = argparse.ArgumentParser(description='Current weather conditions')
+parser.add_argument(
+    '--api-key', dest='api_key', type=str, help='API key')
+parser.add_argument(
+    '--provider', dest='provider', type=str, default='owm',
+    choices=['owm', 'wund'], help='API provider to use')
+parser.add_argument(
+    '--units', dest='units', type=str, default='imperial',
+    choices=['imperial', 'metric'], help='units to display')
+parser.add_argument(
+    'loc', type=str, nargs=argparse.REMAINDER,
+    help="location, usually 'City, State' or 'City, Country'")
+args = parser.parse_args()
+api_key = args.api_key
+provider = args.provider
+loc = ' '.join(args.loc)
+units = args.units
 
-API_URL = "http://www.google.com/ig/api?"
+w = vane.fetch_weather(loc, units, False, provider, api_key)
 
-def main():
-	arguments = ArgumentParser(prog="weather")
-	arguments.add_argument("--unit", choices="CF", dest="unit", default="C", help="Which unit to display the temperatures in")
-	arguments.add_argument("location", nargs="+")
-	args = arguments.parse_args(sys.argv[1:])
+temperature = w['current']['temperature'][0]
+if w['current']['temperature'][1] == 'fahrenheit':
+    temperature_unit = 'F'
+else:
+    temperature_unit = 'C'
+conditions = w['current']['summary'][0]
 
-	for location in args.location:
-		url = API_URL + urlencode({"weather": location})
-		xml = urlopen(url).read()
-		doc = minidom.parseString(xml)
-
-		forecast_information = doc.documentElement.getElementsByTagName("forecast_information")[0]
-		city = forecast_information.getElementsByTagName("city")[0].getAttribute("data")
-
-		current_conditions = doc.documentElement.getElementsByTagName("current_conditions")[0]
-		temp = current_conditions.getElementsByTagName("temp_f" if args.unit == "F" else "temp_c")[0].getAttribute("data")
-		condition = current_conditions.getElementsByTagName("condition")[0].getAttribute("data")
-		wind_condition = current_conditions.getElementsByTagName("wind_condition")[0].getAttribute("data")
-		humidity = current_conditions.getElementsByTagName("humidity")[0].getAttribute("data")
-
-		indent = "  "
-		print("Weather for {0}:".format(city))
-		print(indent + "{0}°{1}".format(temp, args.unit))
-		print(indent + condition)
-		print(indent + wind_condition)
-		print(indent + humidity)
-
-if __name__ == "__main__":
-	main()
-
-"""
-adys@azura ~/src/scripts % ./weather.py London Bucharest "New York"
-Weather for London:
-  14°C
-  Partly Cloudy
-  Wind: S at 12 mph
-  Humidity: 55%
-Weather for Bucharest, Bucuresti:
-  14°C
-  Partly Cloudy
-  Wind: E at 16 mph
-  Humidity: 59%
-Weather for New York, NY:
-  26°C
-  Clear
-  Wind: N at 6 mph
-  Humidity: 32%
-adys@azura ~/src/scripts % ./weather.py "Los Angeles" --unit=F     
-Weather for Los Angeles, CA:
-  64°F
-  Haze
-  Wind: N at 0 mph
-  Humidity: 68%
-"""
+s = "{0} with a temperature of {1}" u"\u00B0" "{2}"
+print s.format(
+    conditions[0].upper() + conditions[1:].lower(),
+    int(round(temperature)), temperature_unit)
